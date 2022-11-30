@@ -38,7 +38,7 @@ echo json_encode($tasks)
         <div>
             <div class="mb-3">
                 <label for="" class="form-label">Name</label>
-                <input type="text" name="newTask" id="newTask" class="form-control" placeholder="" aria-describedby="helpId">
+                <input v-model="newTask" type="text" name="newTask" id="newTask" class="form-control" placeholder="" aria-describedby="helpId">
                 <button @click="postTask()" type="submit" class="btn btn-danger">PREMI</button>
             </div>
         </div>

@@ -35,7 +35,7 @@ createApp( {
         },
         postTask(){
             axios
-            .post(this.api_url,{ task : 'ciao'},
+            .post(this.api_url,{ task : this.newTask},
             { headers: { 'Content-Type' : 'multipart/form-data' } }) 
             .then(element =>{
                 this.tasks = element.data
@@ -46,7 +46,7 @@ createApp( {
     },
     mounted(){
         //this.readTasks(this.api_url);
-        this.postTask(this.api_url);
+        //this.postTask(this.api_url);
         console.log(this.tasks);
     }
 }).mount('#app')
