@@ -1,52 +1,50 @@
-console.log('hello')
-
 const { createApp } = Vue
+createApp(
+    {
+        data() {
+            return {
+                api_url: 'read-tasks.php',
+                tasks: [],
+                newTask: ''
+            }
+        },
+        methods: {
+            readTasks(url) {
 
-
-createApp( {
-    data() {
-        return {
-            message: 'Hello Vue!',
-            newTask: "",
-            tasks : [
-            ],
-            users: [
-                {
-                    nome: 123,
-                    213: 123123 ,
+                axios
+                    .get(url)
+                    .then(response => {
+                        console.log(response); // { config:{}, data: {} }
+                        this.tasks = response.data
+                    })
+                    .catch(err => {
+                        console.error(err.message);
+                    })
+            },
+            saveTask() {
+                console.log('Saving...');
+                const data = {
+                    title: this.newTask
                 }
-            ],
-            api_url: './server.php'
-        }
-    },
-    methods: {
-        readTasks(url) {
-        axios
-            // .put SOVRASCRIVE qualcosa che già esiste
-            // .post PUSHA // aggiunge nuovi valori 
-            .get(url) 
-            .then(element =>{
-                console.log(element);
-                this.tasks = element.data
-            })
-            .catch(err =>{
-                console.error(err.message);
-            })
-        },
-        postTask(){
-            axios
-            .post(this.api_url,{ task : this.newTask},
-            { headers: { 'Content-Type' : 'multipart/form-data' } }) 
-            .then(element =>{
-                this.tasks = element.data
-                console.log("FUNZIONO");
-            })
-        },
+                axios
+                    .post(
+                        'store-tasks.php',
+                        data,
+                        { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(response => {
+                        console.log(response);
+                        this.tasks = response.data
+                        this.newTask = ''
+                    })
+                    .catch(err => {
+                        console.error(err.message);
+                    })
 
-    },
-    mounted(){
-        //this.readTasks(this.api_url);
-        //this.postTask(this.api_url);
-        console.log(this.tasks);
+            }
+        },
+        mounted() {
+            this.readTasks(this.api_url)
+        }
     }
-}).mount('#app')
+)
+    .mount('#app')
