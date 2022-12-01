@@ -30,4 +30,6 @@ if (isset($_POST['title'])) {
   // echo the json file
   // #7 rispondo alla chiamata ajax con un risultato json 
   echo $tasks_json;
-} 
+} else {
+  echo 'Error';
+}
